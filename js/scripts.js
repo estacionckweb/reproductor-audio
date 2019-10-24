@@ -58,6 +58,12 @@ $('.left .item .icon').on('click', (e) => {
         }
         if(json) {
             $.getJSON('./json/' + json + '.json', data => {
+                var subsContainer = document.getElementsByClassName("subsContainer")[0];
+                var child = subsContainer.lastElementChild;
+                while (child) { 
+                    subsContainer.removeChild(child); 
+                    child = subsContainer.lastElementChild; 
+                }
                 for(let i = 0; i < data.length; i++){
                     let node = document.createElement("div");
                     var square = document.createElement("span");

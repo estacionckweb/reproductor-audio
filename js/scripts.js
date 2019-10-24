@@ -52,8 +52,27 @@ $('.left .item .icon').on('click', (e) => {
         $(e.target).addClass('playing');
         var url = $(e.target).attr('data-url');
         var img = $(e.target).attr('data-img');
+        var json = $(e.target).attr('data-json');
         if(img) {
-            $('.backImg').css({'background-image': 'url("'+img+'")'})
+            $('.backImg').css({'background-image': 'url("' + img + '")'})
+        }
+        if(json) {
+            $.getJSON('/json/' + json + '.json', data => {
+                for(let i = 0; i < data.length; i++){
+                    let node = document.createElement("div");
+                    var square = document.createElement("span");
+                    var leftPos = ((data[i].tiempo * 100)/total);
+                    node.setAttribute('style', 'left: '+leftPos+'%');
+                    node.appendChild(square);
+                    node.setAttribute('data-notice', data[i].contenido);
+                    node.addEventListener('click', (e, elem) => {
+                        var notice = document.getElementsByClassName("notice")[0];
+                        notice.innerHTML = node.getAttribute('data-notice');
+                        
+                    })
+                    subsContainer.appendChild(node);  
+                }
+            })
         }
         $('.playerContainer').hide();
         audio.src = url;
